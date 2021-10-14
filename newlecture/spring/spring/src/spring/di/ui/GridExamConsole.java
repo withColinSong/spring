@@ -6,6 +6,10 @@ public class GridExamConsole implements ExamConsole {
 
 	private Exam exam;
 	
+	public GridExamConsole() {
+		
+	}
+	
 	public GridExamConsole(Exam exam) {
 		this.exam = exam;
 	}
@@ -13,10 +17,15 @@ public class GridExamConsole implements ExamConsole {
 	@Override
 	public void print() {
 		System.out.println("忙式式式式式式式式式式式式式式式式式式式式式式式式式式式式式忖");
+		System.out.println("弛     total      | avg        弛");
+		System.out.println("弛                             弛");
 		System.out.println("弛"+exam.total()+"弛"+exam.avg()+" 弛");
 		System.out.println("戌式式式式式式式式式式式式式式式式式式式式式式式式式式式式式戎");
-		
+	}
 
+	@Override
+	public void setExam(Exam exam) {
+		this.exam = exam;
 	}
 
 }
