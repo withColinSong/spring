@@ -3,6 +3,7 @@
 - [Spring 설치](#spring-설치)
   - [1.1 STS 4.0 설치](#11-sts-40-설치)
   - [1.2. Eclipse EE 설치 후 STS 전환](#12-eclipse-ee-설치-후-sts-전환)
+  - [1.3.](#13)
 
 
 # Spring 설치
@@ -13,6 +14,4 @@
 
 ## 1.2. Eclipse EE 설치 후 STS 전환
 
-## 
-
-##
+## 1.3.
