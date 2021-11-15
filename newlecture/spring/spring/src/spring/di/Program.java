@@ -18,9 +18,8 @@ public class Program {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("spring/di/setting.xml");
 	
-		NewlecExam ex = (NewlecExam) context.getBean("exam");
-		System.out.println(ex.total());
-
+		ExamConsole console = (ExamConsole) context.getBean("console");
+		console.print();
 		
 	}
 }
