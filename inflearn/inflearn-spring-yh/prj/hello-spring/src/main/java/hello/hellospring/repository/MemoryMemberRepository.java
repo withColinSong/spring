@@ -1,7 +1,7 @@
-package hello.hellospring.controller.repository;
+package hello.hellospring.repository;
 
 
-import hello.hellospring.controller.domain.Member;
+import hello.hellospring.domain.Member;
 
 import java.util.*;
 
