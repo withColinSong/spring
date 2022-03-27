@@ -8,7 +8,6 @@ package com.example.security01.config.auth;
 // User 오브젝트타입 => UserDetails 타입 객체
 
 // 시큐리티 세션 영역 => Authentication 객체 => UserDetails 객체이어야함.
-
 import com.example.security01.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,12 +39,12 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return user.getUsername();
     }
 
     @Override
@@ -62,7 +61,6 @@ public class PrincipalDetails implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
 
     @Override
     public boolean isEnabled() {
