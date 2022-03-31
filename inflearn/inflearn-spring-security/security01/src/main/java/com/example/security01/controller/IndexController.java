@@ -1,16 +1,9 @@
 package com.example.security01.controller;
 
-import com.example.security01.config.auth.PrincipalDetails;
 import com.example.security01.model.User;
 import com.example.security01.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,14 +23,6 @@ public class IndexController {
         // 머스테치 기본폴더 src/main/resources
         // 뷰리졸버 설정 : templates(prefix), mustache(suffix)생략 가능
         return "index";
-    }
-
-    @GetMapping("/test/oauth/login")
-    public @ResponseBody String loginTest(Authentication authentication) {
-
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        System.out.println(oAuth2User.getAttributes());
-        return "/test/oauth/login";
     }
 
     @GetMapping("user")
@@ -76,20 +61,6 @@ public class IndexController {
 
         userRepository.save(user);
         return "redirect:/loginForm";
-    }
-
-    @Secured("ROLE_ADMIN")
-    @GetMapping("/info")
-    public @ResponseBody String info() {
-        return "개인정보";
-    }
-
-//    @PreAuthorize 메서드 실행 전 여러개 권한을 걸고 싶을 때
-//    @PostAuthorize 메서드 실행 후 여러개 권한을 걸고 싶을 때
-    @PreAuthorize("HasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-    @GetMapping("/data")
-    public @ResponseBody String data() {
-        return "데이터정보";
     }
 
 }

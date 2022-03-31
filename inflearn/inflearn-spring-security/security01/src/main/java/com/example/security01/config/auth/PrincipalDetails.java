@@ -9,37 +9,18 @@ package com.example.security01.config.auth;
 
 // 시큐리티 세션 영역 => Authentication 객체 => UserDetails 객체이어야함.
 import com.example.security01.model.User;
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 
-@Data
-public class PrincipalDetails implements UserDetails, OAuth2User {
+public class PrincipalDetails implements UserDetails {
 
     private User user; // 콤포지션
 
     public PrincipalDetails (User user) {
         this.user = user;
-    }
-
-    @Override
-    public <A> A getAttribute(String name) {
-        return OAuth2User.super.getAttribute(name);
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        return null;
     }
 
     // 해당 user의 권한을 리턴하는 곳
@@ -86,6 +67,4 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         // 1년동안 회원이 로그인을 안하면 휴면회원처리
         return true;
     }
-
-
 }
