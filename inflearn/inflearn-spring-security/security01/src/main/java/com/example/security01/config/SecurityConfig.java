@@ -1,8 +1,12 @@
 package com.example.security01.config;
 
+import com.example.security01.config.auth.PrincipalDetails;
+import com.example.security01.config.oauth.PrincipalOauth2UserService;
 import com.example.security01.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -10,7 +14,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인에 등록됨.
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) // secured 어노테이션 활성화, preAuthorize, postAuthorize 활성화
 public class SecurityConfig extends WebSecurityConfigurerAdapter { // => 스프링 시큐리티 필터
+
+
+    @Autowired
+    private PrincipalOauth2UserService principalOauth2UserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -21,10 +30,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // => 스프�
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll()
                 .and()
-                .formLogin()
-                .loginPage("/loginForm")      // 로그인 page url
-                .loginProcessingUrl("/login") // login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인 진행
-                .defaultSuccessUrl("/");      // 만약 다른 url를 통해 로그인을 했다면 해당 url로 자동으로 이동됨
+                    .formLogin()
+                    .loginPage("/loginForm")      // 로그인 page url
+                    .loginProcessingUrl("/login") // login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인 진행
+                    .defaultSuccessUrl("/")      // 만약 다른 url를 통해 로그인을 했다면 해당 url로 자동으로 이동됨
+                .and()
+                    .oauth2Login()
+                    .loginPage("/loginForm")
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService);
+
 
     }
 
