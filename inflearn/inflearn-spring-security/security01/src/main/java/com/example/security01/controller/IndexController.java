@@ -1,9 +1,14 @@
 package com.example.security01.controller;
 
+import com.example.security01.config.auth.PrincipalDetails;
 import com.example.security01.model.User;
 import com.example.security01.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +22,23 @@ public class IndexController {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @GetMapping("/test/login")
+    public @ResponseBody String testLogin(Authentication authentication, @AuthenticationPrincipal PrincipalDetails userDetails) {
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        System.out.println(principalDetails.getUser());
+        System.out.println(userDetails.getUsername());
+        return "세션 정보 확인하기";
+    }
+
+    @GetMapping("/test/oauth/login")
+    public @ResponseBody String testLogin(Authentication authentication, @AuthenticationPrincipal OAuth2User oauth) {
+        // oauth 로그인은 아래와 같이 캐스팅이 불가능
+        // PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        System.out.println(oauth.getAttributes());
+        return "Oauth 세션 정보 확인하기";
+    }
 
     @GetMapping({"", "/"})
     public String index() {

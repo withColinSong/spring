@@ -9,12 +9,14 @@ package com.example.security01.config.auth;
 
 // 시큐리티 세션 영역 => Authentication 객체 => UserDetails 객체이어야함.
 import com.example.security01.model.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Data
 public class PrincipalDetails implements UserDetails {
 
     private User user; // 콤포지션
