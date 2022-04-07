@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 // 구글 로그인
 // 1. 코드 받기(인증)
@@ -19,7 +20,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인에 등록됨.
 public class SecurityConfig extends WebSecurityConfigurerAdapter { // => 스프링 시큐리티 필터
-
 
     @Autowired
     PrincipalOauth2UserService principalOauth2UserService;
@@ -50,6 +50,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // => 스프�
     public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
     }
-
 
 }
