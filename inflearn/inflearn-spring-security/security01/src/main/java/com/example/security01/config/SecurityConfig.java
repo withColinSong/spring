@@ -2,6 +2,7 @@ package com.example.security01.config;
 
 import com.example.security01.config.oauth.PrincipalOauth2UserService;
 import com.example.security01.model.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,10 +20,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인에 등록됨.
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter { // => 스프링 시큐리티 필터
 
-    @Autowired
-    PrincipalOauth2UserService principalOauth2UserService;
+    private final PrincipalOauth2UserService principalOauth2UserService;
+
+    @Bean
+    public BCryptPasswordEncoder encodePwd() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -45,10 +51,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // => 스프�
                 // 구글 로그인이 완료된 뒤의 후처리가 필요한대, 이때 코드가 리턴되는 것이 아니라 엑세스토근, 사용자 프로필정보를 가져옴)
 
     }
-
-    @Bean // 해당 메서드의 리턴되는 오브젝트를 IoC를 등록해준다.
-    public BCryptPasswordEncoder encodePwd() {
-        return new BCryptPasswordEncoder();
-    }
-
 }

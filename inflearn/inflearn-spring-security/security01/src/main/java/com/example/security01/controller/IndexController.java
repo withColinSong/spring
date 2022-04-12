@@ -3,6 +3,7 @@ package com.example.security01.controller;
 import com.example.security01.config.auth.PrincipalDetails;
 import com.example.security01.model.User;
 import com.example.security01.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,13 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller // view를 리턴함
+@RequiredArgsConstructor
 public class IndexController {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping("/test/login")
     public @ResponseBody String testLogin(Authentication authentication, @AuthenticationPrincipal PrincipalDetails userDetails) {
@@ -47,9 +46,10 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("user")
-    public @ResponseBody String user() {
-        return "user";
+    @GetMapping("/user")
+    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        System.out.println("principalDetails" + principalDetails.getUser());
+        return "user" + bCryptPasswordEncoder.encode("hello");
     }
 
     @GetMapping("admin")

@@ -3,6 +3,7 @@ package com.example.security01.config.oauth;
 import com.example.security01.config.auth.PrincipalDetails;
 import com.example.security01.model.User;
 import com.example.security01.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -15,12 +16,9 @@ import org.springframework.stereotype.Service;
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
     private UserRepository userRepository;
+
     /**
-     *
      * 구글로 부터 받은 userRequest 데이터에 대한 후처리되는 함수
      * 구글로그인 버튼 클릭 -> 구글로그인창 -> 로그인을 완료 -> code를 리턴(Oauth-client 라이브러리) -> 엑세스토큰 요청
      * userRequest 정보 -> loadUser함수호출 -> 구글로부터 회원프로필을 받아준다.
@@ -34,7 +32,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String provider = userRequest.getClientRegistration().getClientId(); // google
         String provderId = oAuth2User.getAttribute("sub");
         String username = provider + "_" + provderId;
-        String password = bCryptPasswordEncoder.encode("겟인데어");
         String role = "ROLE_USER";
         String email = oAuth2User.getAttribute("email");
 
@@ -43,7 +40,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             // 회원가입
             userEntity = User.builder()
                     .username(username)
-                    .password(password)
                     .email(email)
                     .role(role)
                     .provider(provider)

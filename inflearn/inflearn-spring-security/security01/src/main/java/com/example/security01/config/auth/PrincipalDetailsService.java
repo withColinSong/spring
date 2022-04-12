@@ -18,6 +18,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     // 시큐리티 session = Authentication = UserDetails
+
     @Override
     // loadUserByUsername 파라미터 주의
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
