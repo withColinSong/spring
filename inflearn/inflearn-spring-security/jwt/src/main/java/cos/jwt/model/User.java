@@ -1,4 +1,4 @@
-package cos.jwt.controller.model;
+package cos.jwt.model;
 
 import lombok.Data;
 
