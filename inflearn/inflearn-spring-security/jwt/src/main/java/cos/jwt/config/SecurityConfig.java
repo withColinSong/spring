@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // spring security filter 실행전에 아래와 같이 설정해야 함.
         // 우리가 설정한 필터보다 스프링 시큐리티 필터가 먼저 동작한다.
-        //http.addFilterBefore(new MyFilter1(), SecurityContextPersistenceFilter.class);
+        http.addFilterBefore(new MyFilter3(), SecurityContextPersistenceFilter.class);
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)// 세션 사용하지 않음
         .and()
