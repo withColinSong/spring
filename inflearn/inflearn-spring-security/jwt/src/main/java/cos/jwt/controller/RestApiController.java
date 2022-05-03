@@ -38,4 +38,22 @@ public class RestApiController {
         userRepository.save(user);
         return "join 성공";
     }
+
+    // user,manager, admin
+    @GetMapping("/api/v1/user")
+    public String user() {
+        return "user";
+    }
+
+    // manager, admin
+    @GetMapping("/api/v1/manager")
+    public String manager() {
+        return "manager";
+    }
+
+    // admin
+    @GetMapping("/api/v1/admin")
+    public String admin() {
+        return "admin";
+    }
 }

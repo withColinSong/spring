@@ -1,5 +1,7 @@
 package cos.jwt.config.jwt;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cos.jwt.config.auth.PrincipalDetails;
 import cos.jwt.model.User;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Date;
 
 
 // 스프링 시큐리티에서 UsernamePasswordAuthenticationFilter가 있음.
@@ -60,7 +63,26 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     // attemptAuthentication 실행 후 인증이 정상적으로 완료가 되었다면 아래 메서드를 실행
     // jwt토근을 만들어서 request요청한 데이터에게 jwt 토큰을 response 해주면 됨
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(
+            HttpServletRequest request
+            , HttpServletResponse response
+            , FilterChain chain
+            , Authentication authResult) throws IOException, ServletException {
+        System.out.println("정상적인 인증");
+
+        PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
+        System.out.println("principalDetails" + principalDetails.getUser().getUsername());
+        // 1000 => 1초, 1000 => 1분
+        String jwtToken = JWT.create()
+                .withSubject("cos토큰")
+                .withExpiresAt(new Date(System.currentTimeMillis() + (60000*30))) // 만료시간
+                .withClaim("id", principalDetails.getUser().getId())
+                .withClaim("username", principalDetails.getUser().getUsername())
+                .sign(Algorithm.HMAC512("cos"));
+
+        System.out.println("jwtToken" + jwtToken);
+        response.addHeader("Authorization", "Bearer " + jwtToken);
+
         super.successfulAuthentication(request, response, chain, authResult);
     }
 }

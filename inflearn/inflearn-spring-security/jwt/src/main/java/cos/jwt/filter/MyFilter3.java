@@ -26,6 +26,5 @@ public class MyFilter3 implements Filter {
                 out.println("인증안됨");
             }
         }
-        filterChain.doFilter(servletRequest, servletResponse);
     }
 }
