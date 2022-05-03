@@ -15,7 +15,7 @@ public class MyFilter3 implements Filter {
 
         // 토큰을 만들어줘야 함.
         // 요청할 때 마다 header에 Authorization에 value값으로 토큰을 가지고 온다.
-        // 그때 토근이 넘어오면 이 토큰이 내가 만든 토큰인지만 확인하면 됨.
+        // 그때 토큰이 넘어오면 이 토큰이 내가 만든 토큰인지만 확인하면 됨.
         if(req.getMethod().equals("POST")) {
             String headerAuth = req.getHeader("Authorization");
             System.out.println(headerAuth);

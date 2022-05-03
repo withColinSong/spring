@@ -1,12 +1,16 @@
 package cos.jwt.config.auth;
 
 import cos.jwt.model.User;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Getter
+@ToString
 public class PrincipalDetails implements UserDetails {
     private User user;
     public PrincipalDetails(User user) {
@@ -51,4 +55,5 @@ public class PrincipalDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }
