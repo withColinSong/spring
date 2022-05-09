@@ -29,21 +29,22 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        String provider = userRequest.getClientRegistration().getClientId(); // google
-        String provderId = oAuth2User.getAttribute("sub");
-        String username = provider + "_" + provderId;
-        String role = "ROLE_USER";
+        String provider = userRequest.getClientRegistration().getRegistrationId();
         String email = oAuth2User.getAttribute("email");
+        String picture = oAuth2User.getAttribute("picture");
+        String name = oAuth2User.getAttribute("name");
+        String role = "ROLE_USER";
 
-        User userEntity = userRepository.findByUsername(username);
+        User userEntity = userRepository.findByEmail(email);
+
         if(userEntity == null) {
             // 회원가입
             userEntity = User.builder()
-                    .username(username)
+                    .username(name)
                     .email(email)
-                    .role(role)
+                    .roles(role)
+                    .picture(picture)
                     .provider(provider)
-                    .providerId(provderId)
                     .build();
             userRepository.save(userEntity);
         }
