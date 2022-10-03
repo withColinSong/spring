@@ -33,6 +33,11 @@ public class WebConfig implements WebMvcConfigurer {
 - 참고 : port 없을 시 cors 해결되지 않는다. 
  > `http://localhost`
 
+### 1.2.1.
+```java
+.allowedOriginPatterns("*localhost:63342")
+```
+
 ## 1.3. allowedMethods
 - http method
 ```java
