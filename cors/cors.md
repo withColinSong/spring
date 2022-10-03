@@ -46,6 +46,5 @@ public class WebConfig implements WebMvcConfigurer {
 
 ```
 
-
 # 참고문헌
 - https://reflectoring.io/spring-cors/
