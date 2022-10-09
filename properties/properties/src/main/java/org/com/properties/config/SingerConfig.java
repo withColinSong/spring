@@ -17,9 +17,9 @@ public class SingerConfig implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        log.info("singerProperties.group[0]={}", singerProperties.getGroup()[0]);
-        log.info("singerProperties.group[1]={}", singerProperties.getGroup()[1]);
-        log.info("singerProperties.group[2]={}", singerProperties.getGroup()[2]);
+        for (String s : singerProperties.getGroup()) {
+            log.info(s+"={}", s);
+        }
 
     }
 }
