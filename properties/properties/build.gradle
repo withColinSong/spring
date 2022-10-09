@@ -1,19 +1,41 @@
-plugins {
-    id 'java'
+
+buildscript {
+    // 전역변수
+    ext {
+        springBootVersion = '2.7.4'
+    }
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 group 'org.com'
 version '1.0-SNAPSHOT'
+sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-}
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    compileOnly 'org.projectlombok:lombok'
 
-test {
-    useJUnitPlatform()
+    // log를 위한 annotation
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // ConfigurationProperties을 사용하기 위한 annotation
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
