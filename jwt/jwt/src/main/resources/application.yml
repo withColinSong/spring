@@ -30,3 +30,7 @@ logging:
         type:
           descriptor:
             sql: trace
+
+jwt:
+  private.key: classpath:app.key
+  public.key: classpath:app.pub
