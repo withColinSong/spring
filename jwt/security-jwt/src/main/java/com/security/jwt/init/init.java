@@ -12,7 +12,7 @@ import java.util.Set;
 @Component
 public class init {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public init(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -20,9 +20,6 @@ public class init {
 
     @Bean
     public void running() {
-        Set<RoleType> roleType = new HashSet<>();
-        roleType.add(RoleType.USER);
-
         User user = User.builder()
                 .name("song")
                 .email("yj.song")
