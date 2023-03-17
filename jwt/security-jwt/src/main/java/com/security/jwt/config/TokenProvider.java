@@ -11,16 +11,26 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
 import org.springframework.security.oauth2.jwt.*;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 
 @Slf4j
 @Configuration
-public class TokenProvider {
+public class TokenProvider implements OAuth2TokenValidator<Jwt> {
 
     @Value("${jwt.private.key}")
     RSAPrivateKey privateKey;
@@ -55,12 +65,21 @@ public class TokenProvider {
         return jwtEncoder().encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
-    public String resolveToken(HttpServletRequest req) {
-        String bearerToken = req.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
+    public Jwt decode(String token) {
+        return jwtDecoder().decode(token);
     }
+
+    // token 유효성 검사
+    @Override
+    public OAuth2TokenValidatorResult validate(Jwt token) {
+
+        OAuth2Error error = new OAuth2Error("invalid_token", "The required audience is missing", null);
+        if (token.getExpiresAt().isAfter(now)) {
+            return OAuth2TokenValidatorResult.success();
+        } else {
+            return OAuth2TokenValidatorResult.failure(error);
+        }
+    }
+
 
 }
